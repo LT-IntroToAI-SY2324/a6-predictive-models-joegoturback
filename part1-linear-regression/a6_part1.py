@@ -10,15 +10,44 @@ y = data["Blood Pressure"].values
 # Use reshape to turn the x values into 2D arrays:
 x = x.reshape(-1,1)
 
-# Create the model
+# create the model
+model = LinearRegression().fit(x, y)
 
-# Find the coefficient, bias, and r squared values. 
-# Each should be a float and rounded to two decimal places. 
+# find the coefficient, bias, and r squared values
+# each should be a float and rounded to two decimal places
+coef = round(float(model.coef_), 2)
+intercept = round(float(model.intercept_), 2)
+r_squared = model.score(x, y)
 
+# value you are going to predict
+x_predict = 43
+# plug that value into your model
+prediction = model.predict([[x_predict]])
 
-# Print out the linear equation and r squared value
+# print out the linear equation and r squared value
+print(f"Model's Linear Equation: y = {coef}x + {intercept}")
+print(f"R Squared value: {r_squared}")
+print(f"Prediction when someone is {x_predict} years old: {prediction}")
 
-# Predict the the blood pressure of someone who is 43 years old.
-# Print out the prediction
+'''
+The following code creates the graph to visualize the data
+'''
+# sets the size of the graph
+plt.figure(figsize=(6,4))
 
-# Create the model in matplotlib and include the line of best fit
+# creates a scatter plot of originial data in purple
+# and the predicted data in blue
+plt.scatter(x,y, c="purple")
+plt.scatter(x_predict, prediction, c="blue")
+
+# labe the axes
+plt.xlabel("Age")
+plt.ylabel("Blood Pressure")
+plt.title("Blood pressure through ages")
+
+# plot the line of best fit in red and label the line
+plt.plot(x, coef*x + intercept, c="r", label="Line of Best Fit")
+
+# show the plot and legend
+plt.legend()
+plt.show()
